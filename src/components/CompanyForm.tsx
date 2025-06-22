@@ -47,7 +47,7 @@ export default function CompanyForm({ mode, companyId }: CompanyFormProps) {
       fetch(`/api/company/${companyId}`)
         .then((res) => res.json())
         .then((data) => setForm(data))
-        .catch(() => alert("Error loading company data"));
+        .catch(() => alert("Falha ao carregar empresa"));
     }
   }, [mode, companyId]);
 
@@ -95,7 +95,7 @@ export default function CompanyForm({ mode, companyId }: CompanyFormProps) {
     "
     >
       {Object.entries(form).map(([name, value]) => {
-        if (name === "id") return null; // don't show id
+        if (name === "id") return null;
 
         const isFullWidth = name === "corporateName";
         const isCNPJ = name === "cnpj";
