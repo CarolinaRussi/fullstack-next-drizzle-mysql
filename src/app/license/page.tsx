@@ -1,6 +1,6 @@
 "use client";
-import LicenseForm from "@/components/LicenseForm";
 import Modal from "@/components/Modal";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -20,9 +20,8 @@ type CompanyFormProps = {
 export default function LicenseList({ companyId }: CompanyFormProps) {
   const [licenses, setLicenses] = useState<License[]>([]);
   const [loading, setLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [editingLicense, setEditingLicense] = useState<License | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState<License | null>(null);
+  const router = useRouter();
 
   const fetchLicenses = useCallback(async () => {
     setLoading(true);
@@ -43,16 +42,6 @@ export default function LicenseList({ companyId }: CompanyFormProps) {
   useEffect(() => {
     if (companyId) fetchLicenses();
   }, [companyId, fetchLicenses]);
-
-  const openEditModal = (license: License) => {
-    setEditingLicense(license);
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setEditingLicense(null);
-    setShowModal(false);
-  };
 
   const openDeleteModal = (license: License) => {
     setShowDeleteModal(license);
@@ -90,9 +79,7 @@ export default function LicenseList({ companyId }: CompanyFormProps) {
         <h2 className="text-xl font-semibold">Licenças da Empresa</h2>
         <button
           className="bg-teal-700 text-white px-4 py-2 rounded hover:bg-teal-800 cursor-pointer"
-          onClick={() => {
-            setShowModal(true);
-          }}
+          onClick={() => router.push(`/company/${companyId}/licenses/create`)}
         >
           Nova Licença +
         </button>
@@ -129,7 +116,11 @@ export default function LicenseList({ companyId }: CompanyFormProps) {
               <div className="flex space-x-3">
                 <button
                   aria-label="Editar licença"
-                  onClick={() => openEditModal(license)}
+                  onClick={() =>
+                    router.push(
+                      `/company/${companyId}/licenses/${license.id}/edit`
+                    )
+                  }
                   className="text-teal-700 hover:text-teal-900 cursor-pointer"
                 >
                   <FaEdit size={20} />
@@ -145,16 +136,6 @@ export default function LicenseList({ companyId }: CompanyFormProps) {
             </li>
           ))}
         </ul>
-      )}
-      {showModal && companyId && (
-        <Modal onClose={closeModal}>
-          <LicenseForm
-            companyId={parseInt(companyId)}
-            licenseToEdit={editingLicense ?? undefined}
-            onClose={closeModal}
-            onSuccess={fetchLicenses}
-          />
-        </Modal>
       )}
 
       {showDeleteModal && (

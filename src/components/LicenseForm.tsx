@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -11,17 +12,18 @@ type License = {
 };
 
 type LicenseFormProps = {
-  companyId: number;
+  companyId?: number;
   licenseToEdit?: License & { id: number };
-  onClose: () => void;
-  onSuccess: () => void;
+};
+
+type Company = {
+  id: number;
+  corporateName: string;
 };
 
 export default function LicenseForm({
   companyId,
   licenseToEdit,
-  onClose,
-  onSuccess,
 }: LicenseFormProps) {
   const [form, setForm] = useState<License>({
     number: "",
@@ -29,6 +31,26 @@ export default function LicenseForm({
     issuedAt: "",
     expiresAt: "",
   });
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [selectedCompanyId, setSelectedCompanyId] = useState<
+    number | undefined
+  >(companyId);
+  const router = useRouter();
+
+  useEffect(() => {
+    async function fetchCompanies() {
+      try {
+        const res = await fetch("/api/company");
+        const data = await res.json();
+        setCompanies(data);
+        console.log(companies);
+      } catch (error) {
+        toast.error(`Erro ao carregar empresas: ${error}`);
+      }
+    }
+
+    fetchCompanies();
+  }, []);
 
   useEffect(() => {
     if (licenseToEdit) {
@@ -60,8 +82,13 @@ export default function LicenseForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!selectedCompanyId) {
+      toast.error("Selecione uma empresa antes de salvar.");
+      return;
+    }
+
     const payload = {
-      companyId,
+      companyId: selectedCompanyId,
       ...form,
     };
 
@@ -83,8 +110,8 @@ export default function LicenseForm({
             ? "Licença atualizada com sucesso!"
             : "Licença criada com sucesso!"
         );
-        onSuccess();
-        onClose();
+        router.push(`/company/${selectedCompanyId}`);
+        return;
       } else {
         const err = await res.json();
         toast.error(
@@ -107,73 +134,89 @@ export default function LicenseForm({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="grid gap-4 sm:grid-cols-2 max-w-lg mx-auto"
-    >
-      <div className="sm:col-span-2">
-        <label className="block text-sm font-medium mb-1">Número</label>
-        <input
-          type="text"
-          name="number"
-          value={form.number}
-          onChange={handleChange}
-          required
-          className="w-full border rounded px-3 py-2"
-        />
-      </div>
-      <div className="sm:col-span-2">
-        <label className="block text-sm font-medium mb-1">
-          Órgão Ambiental
-        </label>
-        <input
-          type="text"
-          name="environmentalAgency"
-          value={form.environmentalAgency}
-          onChange={handleChange}
-          required
-          className="w-full border rounded px-3 py-2"
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium mb-1">
-          Data de Emissão
-        </label>
-        <input
-          type="date"
-          name="issuedAt"
-          value={form.issuedAt}
-          onChange={handleChange}
-          required
-          className="w-full border rounded px-3 py-2"
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium mb-1">Validade</label>
-        <input
-          type="date"
-          name="expiresAt"
-          value={form.expiresAt}
-          onChange={handleChange}
-          required
-          className="w-full border rounded px-3 py-2"
-        />
-      </div>
-      <div className="sm:col-span-2 flex justify-end gap-4 pt-2">
-        <button
-          type="button"
-          onClick={onClose}
-          className="border px-4 py-2 rounded cursor-pointer"
-        >
-          Cancelar
-        </button>
-        <button
-          type="submit"
-          className="bg-teal-700 text-white px-4 py-2 rounded hover:bg-teal-800 cursor-pointer"
-        >
-          {licenseToEdit ? "Atualizar Licença" : "Salvar Licença"}
-        </button>
-      </div>
-    </form>
+    <div className="max-w-2xl w-full mx-auto px-4 py-8">
+      <h1 className="text-2xl font-semibold mb-6 text-center">
+        {licenseToEdit ? "Editar Licença" : "Nova Licença"}
+      </h1>
+
+      <form
+        onSubmit={handleSubmit}
+        className="max-w-2xl w-full mx-auto px-4 py-8 grid gap-4 sm:grid-cols-2"
+      >
+        <div className="sm:col-span-2">
+          <label className="block text-sm font-medium mb-1">Empresa</label>
+          <select
+            value={selectedCompanyId?.toString() ?? ""}
+            onChange={(e) => setSelectedCompanyId(parseInt(e.target.value))}
+            required
+            className="w-full border rounded px-3 py-2"
+          >
+            <option value="">Selecione uma empresa</option>
+            {companies.map((company) => (
+              <option key={company.id} value={company.id.toString()}>
+                {company.corporateName}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="sm:col-span-2">
+          <label className="block text-sm font-medium mb-1">Número</label>
+          <input
+            type="text"
+            name="number"
+            value={form.number}
+            onChange={handleChange}
+            required
+            className="w-full border rounded px-3 py-2"
+          />
+        </div>
+        <div className="sm:col-span-2">
+          <label className="block text-sm font-medium mb-1">
+            Órgão Ambiental
+          </label>
+          <input
+            type="text"
+            name="environmentalAgency"
+            value={form.environmentalAgency}
+            onChange={handleChange}
+            required
+            className="w-full border rounded px-3 py-2"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">
+            Data de Emissão
+          </label>
+          <input
+            type="date"
+            name="issuedAt"
+            value={form.issuedAt}
+            onChange={handleChange}
+            required
+            className="w-full border rounded px-3 py-2"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">Validade</label>
+          <input
+            type="date"
+            name="expiresAt"
+            value={form.expiresAt}
+            onChange={handleChange}
+            required
+            className="w-full border rounded px-3 py-2"
+          />
+        </div>
+        <div className="sm:col-span-2 flex flex-col sm:flex-row justify-end gap-4 pt-4">
+          <button
+            type="submit"
+            className="bg-teal-700 text-white px-4 py-2 rounded hover:bg-teal-800 cursor-pointer"
+          >
+            {licenseToEdit ? "Atualizar Licença" : "Salvar Licença"}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }

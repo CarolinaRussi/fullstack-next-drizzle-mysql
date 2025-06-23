@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Projeto de Empresa e Licenças
 
-## Getting Started
+Projeto fullstack baseado em Next.js 13+ com App Router, utilizando MySQL rodando via Docker e o ORM Drizzle para manipulação do banco.
 
-First, run the development server:
+### Tecnologias Utilizadas
 
-```bash
+- Next.js 13+ (App Router) — Framework React para frontend e backend juntos.
+- MySQL — Banco de dados relacional, rodando em container Docker.
+- Docker & Docker Compose — Para orquestração e execução do banco localmente.
+- Drizzle ORM — ORM leve para TypeScript/JavaScript, facilitando queries e migrations.
+- mysql2 — Driver Node.js para conexão com MySQL.
+
+### Como rodar o projeto localmente
+
+## Pré-requisitos:
+
+- Docker e Docker Compose instalados e rodando na máquina local.
+- Node.js (preferencialmente LTS, ex: v18 ou superior) instalado para rodar o Next.js.
+- npm ou yarn — gerenciador de pacotes para instalar dependências.
+
+## 1. Clone o projeto
+
+git clone https://github.com/seu-usuario/fullstack-next-drizzle-mysql.git
+cd fullstack-next-drizzle-mysql
+
+## 2. Copie o arquivo de exemplo .env.example para .env e configure as variáveis (se necessario)
+
+## 3. Suba o container do banco MySQL com Docker Compose pelo terminal com o comando:
+
+docker-compose up -d
+
+## 4. Instale as dependências do projeto com o comando:
+
+npm install
+
+# ou yarn
+
+## 5. Rode os comandos para aplicar migrations (via Drizzle):
+
+npm run migrate
+
+# ou yarn
+
+## 6. Inicie o servidor Next.js
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# ou yarn
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Pronto!
+Abra [http://localhost:3000](http://localhost:3000) no navegador e já pode começar a usar.
