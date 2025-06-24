@@ -1,6 +1,6 @@
 "use client";
 import Modal from "@/components/Modal";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -13,15 +13,14 @@ type License = {
   expiresAt: string;
 };
 
-type CompanyFormProps = {
-  companyId?: string;
-};
-
-export default function LicenseList({ companyId }: CompanyFormProps) {
+export default function LicenseList() {
   const [licenses, setLicenses] = useState<License[]>([]);
   const [loading, setLoading] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState<License | null>(null);
   const router = useRouter();
+
+  const params = useParams();
+  const companyId = params.id as string;
 
   const fetchLicenses = useCallback(async () => {
     setLoading(true);

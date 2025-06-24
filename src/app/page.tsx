@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import CompanyCard from "@/components/CompanyCard";
 import { useRouter } from "next/navigation";
 
@@ -16,15 +16,15 @@ export default function HomePage() {
   const [companies, setCompanies] = useState<Company[]>([]);
   const router = useRouter();
 
-  async function fetchCompanies() {
+  const fetchCompanies = useCallback(async () => {
     const res = await fetch("/api/company");
     const data = await res.json();
     setCompanies(data);
-  }
+  }, []);
 
   useEffect(() => {
     fetchCompanies();
-  }, []);
+  }, [fetchCompanies]);
 
   async function handleDelete(id: number) {
     await fetch(`/api/company/${id}`, { method: "DELETE" });
