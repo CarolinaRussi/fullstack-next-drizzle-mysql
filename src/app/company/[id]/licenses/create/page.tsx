@@ -3,9 +3,9 @@
 import LicenseForm from "@/components/LicenseForm";
 import { useParams } from "next/navigation";
 
-export default function NewLicensePage() {
+export default function NewLicenseCompany() {
   const params = useParams();
-  const companyId = params.companyId as string;
+  const companyId = params.id as string;
 
   return (
     <div>

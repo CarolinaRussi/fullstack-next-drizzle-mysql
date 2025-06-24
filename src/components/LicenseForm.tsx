@@ -87,6 +87,8 @@ export default function LicenseForm({
       return;
     }
 
+    console.log("form", form);
+
     const payload = {
       companyId: selectedCompanyId,
       ...form,
@@ -110,7 +112,7 @@ export default function LicenseForm({
             ? "Licença atualizada com sucesso!"
             : "Licença criada com sucesso!"
         );
-        router.push(`/company/${selectedCompanyId}`);
+        router.push(`/company/${selectedCompanyId}/edit`);
         return;
       } else {
         const err = await res.json();

@@ -17,6 +17,7 @@ export async function PUT(
       );
     }
     const data = await req.json();
+    console.log(data);
 
     const result = await db.update(license).set(data).where(eq(license.id, id));
 
@@ -31,6 +32,7 @@ export async function PUT(
     );
   }
 }
+
 
 export async function GET(
   req: Request,

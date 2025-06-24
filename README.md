@@ -14,16 +14,26 @@ Projeto fullstack baseado em Next.js 13+ com App Router, utilizando MySQL rodand
 
 ## Pré-requisitos:
 
-- Docker e Docker Compose instalados e rodando na máquina local.
-- Node.js (preferencialmente LTS, ex: v18 ou superior) instalado para rodar o Next.js.
-- npm ou yarn — gerenciador de pacotes para instalar dependências.
+- [Docker](https://www.docker.com/) e [Docker Compose](https://docs.docker.com/compose/) instalados.
+- [Node.js](https://nodejs.org/) LTS (v18 ou superior).
+- `npm` ou `yarn` instalados.
 
 ## 1. Clone o projeto
 
 git clone https://github.com/seu-usuario/fullstack-next-drizzle-mysql.git
 cd fullstack-next-drizzle-mysql
 
-## 2. Copie o arquivo de exemplo .env.example para .env e configure as variáveis (se necessario)
+## 2. Configure as variaveis de ambiente
+
+Copie o arquivo de exemplo .env.example para .env e configure as variáveis (se necessario)
+
+Preencha 
+- DATABASE_URL
+- MYSQL_ROOT_PASSWORD 
+- MYSQL_DATABASE
+- MYSQL_USER
+- MYSQL_PASSWORD
+- MYSQL_HOST, MYSQL_PORT
 
 ## 3. Suba o container do banco MySQL com Docker Compose pelo terminal com o comando:
 
@@ -32,20 +42,26 @@ docker-compose up -d
 ## 4. Instale as dependências do projeto com o comando:
 
 npm install
-
-# ou yarn
+# ou 
+yarn
 
 ## 5. Rode os comandos para aplicar migrations (via Drizzle):
 
-npm run migrate
+npm run drizzle:push
+# ou
+yarn drizzle:push
 
-# ou yarn
 
 ## 6. Inicie o servidor Next.js
 
 npm run dev
-
-# ou yarn
+# ou
+yarn dev
 
 Pronto!
-Abra [http://localhost:3000](http://localhost:3000) no navegador e já pode começar a usar.
+
+Acesse no navegador:
+
+[http://localhost:3000](http://localhost:3000) 
+
+Você já pode usar a aplicação para cadastrar empresas e licenças 

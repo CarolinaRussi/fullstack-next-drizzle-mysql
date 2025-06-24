@@ -72,7 +72,6 @@ export default function LicenseList({ companyId }: CompanyFormProps) {
       closeDeleteModal();
     }
   };
-
   return (
     <div className="mt-8">
       <div className="flex justify-between items-center mb-4">
@@ -106,11 +105,16 @@ export default function LicenseList({ companyId }: CompanyFormProps) {
                 </p>
                 <p>
                   <strong>Emissão:</strong>{" "}
-                  {new Date(license.issuedAt).toLocaleDateString()}
+                  {new Date(license.issuedAt).toLocaleDateString("pt-BR", {
+                    timeZone: "UTC",
+                  })}
                 </p>
+
                 <p>
                   <strong>Validade:</strong>{" "}
-                  {new Date(license.expiresAt).toLocaleDateString()}
+                  {new Date(license.expiresAt).toLocaleDateString("pt-BR", {
+                    timeZone: "UTC",
+                  })}
                 </p>
               </div>
               <div className="flex space-x-3">

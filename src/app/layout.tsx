@@ -22,6 +22,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <Link href="/company/create" className="hover:underline">
                 Nova Empresa
               </Link>
+              <Link href="/license/create" className="hover:underline">
+                Nova Licença
+              </Link>
             </nav>
           </div>
         </header>

@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 export default function EditLicensePage() {
   const params = useParams();
-  const companyId = params.companyId as string;
+  const companyId = params.id as string;
   const licenseId = params.licenseId;
 
   const [licenseToEdit, setLicenseToEdit] = useState(null);
@@ -29,7 +29,6 @@ export default function EditLicensePage() {
 
   return (
     <div>
-      <h1>Editar Licença</h1>
       <LicenseForm
         companyId={parseInt(companyId)}
         licenseToEdit={licenseToEdit}
