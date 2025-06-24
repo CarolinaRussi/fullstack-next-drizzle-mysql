@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { ToastContainer } from "react-toastify";
 
 export const metadata = {
-  title: "Empresa Licenças",
+  title: "EcoTrack",
   description: "Sistema de gestão de empresas e licenças ambientais",
 };
 
@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="bg-gray-100 text-gray-900">
         <header className="bg-teal-700 text-white px-4 py-3 shadow">
           <div className="max-w-4xl mx-auto flex justify-between items-center">
-            <h1 className="text-lg font-semibold">Empresa Licenças</h1>
+            <h1 className="text-lg font-semibold">EcoTrack</h1>
             <nav className="space-x-4">
               <Link href="/" className="hover:underline">
                 Home

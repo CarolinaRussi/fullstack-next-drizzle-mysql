@@ -21,12 +21,12 @@ export async function PUT(
     const result = await db.update(company).set(data).where(eq(company.id, id));
 
     return NextResponse.json(
-      { message: "Empresa criada com sucesso", result },
+      { message: "Empresa editada com sucesso", result },
       { status: 201 }
     );
   } catch (error) {
     return NextResponse.json(
-      { error: `Erro ao criar empresa: ${error}` },
+      { error: `Erro ao editar empresa: ${error}` },
       { status: 500 }
     );
   }
