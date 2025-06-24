@@ -1,7 +1,7 @@
 "use client";
 
-import LicenseList from "@/app/license/page";
 import CompanyForm from "@/components/CompanyForm";
+import LicenseList from "@/components/LicenseList";
 import { useParams } from "next/navigation";
 
 export default function EditCompanyPage() {
